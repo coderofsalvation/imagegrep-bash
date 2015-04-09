@@ -47,11 +47,12 @@ to_txt(){
 do_grep(){
   remainchars=$(( ${#1} - 2 ))
   regex=" ${1:0:2}.{$remainchars} "
-  echo grep -E $regex $2
+  grep -i -E $regex $2 && return 0 || return 1
 }
 
 run(){
   init && to_png "$1" && to_txt $pngfile $3 && do_grep "$2" $txtfile.txt
+  exit $?
 }
 
 if [[ -n $DEBUG ]]; then 

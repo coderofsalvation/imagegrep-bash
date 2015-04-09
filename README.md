@@ -7,13 +7,13 @@ unix 'grep' a word inside pdf or image based on OCR
     ./imagegrep foo.pdf invoice eng && echo "grab your wallet!"
 
 <center> 
-  <img alt="" src="http://www.gifbin.com/bin/092014/1410513359_cat_vs_lemon.gif" style="height:150px"/>
+  <img alt="" src="http://www.gifbin.com/bin/092014/1410513359_cat_vs_lemon.gif" style="height:110px"/>
   no repo is complete without a catgif!
 </center>
 
 # Install
 
-    wget https://github.com/coderofsalvation/imagegrep-bash/blob/master/imagegrep 
+    wget https://raw.githubusercontent.com/coderofsalvation/imagegrep-bash/master/imagegrep 
     chmod 755 imagegrep
     ./imagegrep foo.pdf invoice eng 
 

@@ -2,7 +2,7 @@ imagegrep-bash
 ==============
 unix 'grep' a word inside pdf or image based on OCR
 
-<img alt="" src="http://www.gifbin.com/988814" style="height:150px"/>
+<img alt="" src="http://www.gifbin.com/bin/092014/1410513359_cat_vs_lemon.gif" style="height:150px"/>
 
 no repo is complete without a catgif!
 

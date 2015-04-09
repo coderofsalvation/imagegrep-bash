@@ -1,0 +1,59 @@
+#!/bin/bash 
+# Author: Leon van Kammen / Coder of Salvation 
+# LICENSE: GPL
+# What it does: greps text in image or pdf 
+# 
+# ## requirements
+# please make sure 'imagemagick' and 'tesseract-ocr' packages are installed" 
+# also install language packs like: tesseract-ocr-nld, tesseract-ocr-eng...
+# 
+#  Copyright (C) 2015, Leon van Kammen / Coder of Salvation 
+#  
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU Affero General Public License as
+#  published by the Free Software Foundation, either version 3 of the
+#  License, or (at your option) any later version.
+#  
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU Affero General Public License for more details.
+#  
+#  You should have received a copy of the GNU Affero General Public License
+#  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+[[ ! -n "$3" ]] && { echo "Usage: DEBUG=1 imagegrep <image or pdffile> <word> <eng|nld>"; exit 0; }
+
+pngfile=/tmp/imagegrep.png
+txtfile=/tmp/imagegrep
+
+init(){
+  apps="convert tesseract"
+  for app in $apps; do which $app &>/dev/null || { 
+    grep -A2 "^# ## requirements" "$0" | sed 's/^# //g'; echo "..aborting"
+    exit 1;
+  }
+  done
+}
+
+to_png(){
+  [[ "$1" =~ \.png$ ]] && { cp "$1" $pngfile; return 0; }
+  convert -density 400 "$1" -deskew 40 -normalize -scale 1000 $pngfile 
+}
+
+to_txt(){
+  tesseract $pngfile $txtfile $3
+}
+
+do_grep(){
+  remainchars=$(( ${#1} - 2 ))
+  regex=" ${1:0:2}.{$remainchars} "
+  echo grep -E $regex $2
+}
+
+run(){
+  init && to_png "$1" && to_txt $pngfile $3 && do_grep "$2" $txtfile.txt
+}
+
+if [[ -n $DEBUG ]]; then 
+  run "$@" 2>&1 | while read line; do echo "$(basename "$1")> $line"; done
+else run "$@" 2>/dev/null 1>/dev/null; fi 
